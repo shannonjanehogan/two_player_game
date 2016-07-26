@@ -11,7 +11,7 @@ class Game
 
 #Instance Methods
   def scorecard
-    puts "Player #{@player} has #{@players[turn].lives}/3 left!"
+    puts "Player #{@players[@turn].name} has #{@players[turn].lives}/3 left!"
   end
 
   def play_turn
@@ -21,8 +21,8 @@ class Game
     if !is_correct
       puts "Uh oh, you got it wrong"
       @players[@turn].lives -= 1
-      # puts should_game_continue.inspect
       if should_game_continue
+        scorecard
         switch_turns
         play_turn
       else
@@ -30,26 +30,19 @@ class Game
       end
     else
       puts "You got it right!"
+      scorecard
       switch_turns
       play_turn
     end
   end
 
   def switch_turns
-    scorecard
-    if @turn == 0
-      return @turn = 1
-    else
-      return @turn = 0
-    end
-    # @turn == 1 ? 0 : 1
-    # play_turn
+    @turn = @turn == 1 ? 0 : 1
   end
 
   def should_game_continue
     @players.each do |player|
       if player.lives == 0
-        puts "do you reach me?"
         return false
       end
     end
